@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 
 import '../components/carousel_slider.dart';
@@ -5,7 +7,9 @@ import '../components/carousel_slider.dart';
 import '../constants/colors.dart';
 
 class HomePage extends StatelessWidget {
-  const HomePage({Key key}) : super(key: key);
+  HomePage({Key key}) : super(key: key);
+
+  final carouselsProvider = _CarouselsProvider();
 
   @override
   Widget build(BuildContext context) {
@@ -15,7 +19,7 @@ class HomePage extends StatelessWidget {
         alignment: Alignment.center,
         children: <Widget>[
           Positioned(
-            top: 5,
+            top: 0,
             left: 0,
             right: 0,
             height: 100,
@@ -78,7 +82,7 @@ class HomePage extends StatelessWidget {
             ),
           ),
           Positioned(
-            top: 110,
+            top: 100,
             bottom: 50,
             left: 0,
             right: 0,
@@ -101,30 +105,14 @@ class HomePage extends StatelessWidget {
                   ],
                 ),
               ),
-              child: CarouselSlider(
-                items: <Widget>[
-                  Container(
-                    height: 0.8 * (MediaQuery.of(context).size.height - 150),
-                    child: Image.asset("images/test_pic.png"),
-                    color: Colors.transparent,
-                  ),
-                  Container(
-                    height: 0.8 * (MediaQuery.of(context).size.height - 150),
-                    child: Image.asset("images/test_pic.png"),
-                    color: Colors.transparent,
-                  ),
-                  Container(
-                    height: 0.8 * (MediaQuery.of(context).size.height - 150),
-                    child: Image.asset("images/test_pic.png"),
-                    color: Colors.transparent,
-                  ),
-                  Container(
-                    height: 0.8 * (MediaQuery.of(context).size.height - 150),
-                    child: Image.asset("images/test_pic.png"),
-                    color: Colors.transparent,
-                  ),
-                ],
-                autoPlay: true,
+              child: CarouselSlider.builder(
+                key: _CarouselsProvider.appsCarouselKey,
+                itemCount: _CarouselsProvider.appsCount,
+                itemBuilder: (ctx, index) => CarouselTest(
+                  carouselKey: _CarouselsProvider.screensCarouselKeys[index],
+                  children: _CarouselsProvider.appScreens[index],
+                ),
+                autoPlay: false,
                 autoPlayAnimationDuration: Duration(milliseconds: 1000),
                 autoPlayCurve: Curves.easeInOutCubic,
                 enableInfiniteScroll: true,
@@ -148,10 +136,18 @@ class HomePage extends StatelessWidget {
                   mainAxisSize: MainAxisSize.max,
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
+                    // 1st part of horizontal different-app navigation
                     Material(
                       color: Colors.transparent,
                       child: IconButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          (_CarouselsProvider.appsCarouselKey.currentWidget
+                                  as CarouselSlider)
+                              .previousPage(
+                            duration: Duration(milliseconds: 1000),
+                            curve: Curves.easeInOutCubic,
+                          );
+                        },
                         icon: Icon(
                           Icons.arrow_back_ios,
                           color: Colors.white,
@@ -159,10 +155,67 @@ class HomePage extends StatelessWidget {
                         ),
                       ),
                     ),
+                    //  vertical same-app navigation
+                    Column(
+                      mainAxisSize: MainAxisSize.max,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        Material(
+                          color: Colors.transparent,
+                          child: IconButton(
+                            onPressed: () {
+                              (_CarouselsProvider.appsCarouselKey.currentWidget
+                                      as CarouselSlider)
+                                  .previousPage(
+                                duration: Duration(milliseconds: 1000),
+                                curve: Curves.easeInOutCubic,
+                              );
+                            },
+                            icon: Transform.rotate(
+                              angle: pi / 2,
+                              child: Icon(
+                                Icons.arrow_back_ios,
+                                color: Colors.white,
+                                size: 28,
+                              ),
+                            ),
+                          ),
+                        ),
+                        Material(
+                          color: Colors.transparent,
+                          child: IconButton(
+                            onPressed: () {
+                              (_CarouselsProvider.appsCarouselKey.currentWidget
+                                      as CarouselSlider)
+                                  .previousPage(
+                                duration: Duration(milliseconds: 1000),
+                                curve: Curves.easeInOutCubic,
+                              );
+                            },
+                            icon: Transform.rotate(
+                              angle: -pi / 2,
+                              child: Icon(
+                                Icons.arrow_back_ios,
+                                color: Colors.white,
+                                size: 28,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    // 2nd part of horizontal different-app navigation
                     Material(
                       color: Colors.transparent,
                       child: IconButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          (_CarouselsProvider.appsCarouselKey.currentWidget
+                                  as CarouselSlider)
+                              .nextPage(
+                            duration: Duration(milliseconds: 1000),
+                            curve: Curves.easeInOutCubic,
+                          );
+                        },
                         icon: Icon(
                           Icons.arrow_forward_ios,
                           color: Colors.white,
@@ -177,4 +230,77 @@ class HomePage extends StatelessWidget {
       ),
     );
   }
+}
+
+class CarouselTest extends StatelessWidget {
+  final List<Widget> children;
+  final GlobalKey<CarouselSliderState> carouselKey;
+  CarouselTest({
+    Key key,
+    this.carouselKey,
+    this.children,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return CarouselSlider.builder(
+      key: carouselKey,
+      itemCount: children.length,
+      itemBuilder: (ctx, index) => Container(
+        height: 0.8 * (MediaQuery.of(context).size.height - 150),
+        child: children[index],
+        color: Colors.transparent,
+      ),
+      autoPlay: true,
+      autoPlayAnimationDuration: Duration(milliseconds: 1000),
+      autoPlayCurve: Curves.easeInOutCubic,
+      enableInfiniteScroll: true,
+      enlargeCenterPage: false,
+      initialPage: 0,
+      viewportFraction: 1.0,
+      scrollDirection: Axis.vertical,
+      pauseAutoPlayOnTouch: Duration(seconds: 4),
+    );
+  }
+}
+
+class _CarouselsProvider {
+  static int appsCount = 4;
+  static List<int> appScreensCount = [4, 4, 4, 4];
+
+  static final GlobalKey<CarouselSliderState> appsCarouselKey = GlobalKey();
+  static List<GlobalKey<CarouselSliderState>> screensCarouselKeys =
+      List.generate(
+    appsCount,
+    (index) {
+      return GlobalKey();
+    },
+  );
+
+  static List<List<Widget>> appScreens = [
+    [
+      Image.asset("images/test_pic.png"),
+      Image.asset("images/test_pic.png"),
+      Image.asset("images/test_pic.png"),
+      Image.asset("images/test_pic.png"),
+    ],
+    [
+      Image.asset("images/test_pic.png"),
+      Image.asset("images/test_pic.png"),
+      Image.asset("images/test_pic.png"),
+      Image.asset("images/test_pic.png"),
+    ],
+    [
+      Image.asset("images/test_pic.png"),
+      Image.asset("images/test_pic.png"),
+      Image.asset("images/test_pic.png"),
+      Image.asset("images/test_pic.png"),
+    ],
+    [
+      Image.asset("images/test_pic.png"),
+      Image.asset("images/test_pic.png"),
+      Image.asset("images/test_pic.png"),
+      Image.asset("images/test_pic.png"),
+    ],
+  ];
 }

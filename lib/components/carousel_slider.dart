@@ -6,8 +6,10 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 class CarouselSlider extends StatefulWidget {
+  final GlobalKey<CarouselSliderState> key;
   CarouselSlider(
       {@required this.items,
+      this.key,
       this.height,
       this.aspectRatio: 16 / 9,
       this.viewportFraction: 0.8,
@@ -38,6 +40,7 @@ class CarouselSlider extends StatefulWidget {
   CarouselSlider.builder(
       {@required this.itemCount,
       @required this.itemBuilder,
+      this.key,
       this.height,
       this.aspectRatio: 16 / 9,
       this.viewportFraction: 0.8,
@@ -62,6 +65,13 @@ class CarouselSlider extends StatefulWidget {
           initialPage:
               enableInfiniteScroll ? realPage + initialPage : initialPage,
         );
+
+  // moved to primary constructor to customize an outer [PageController]
+
+  /* this.pageController = PageController(
+          viewportFraction: viewportFraction,
+          initialPage:
+              enableInfiniteScroll ? realPage + initialPage : initialPage, */
 
   /// The widgets to be shown in the carousel of default constructor
   final List<Widget> items;
@@ -185,9 +195,8 @@ class CarouselSlider extends StatefulWidget {
   /// Jumps the page position from its current value to the given value,
   /// without animation, and without checking if the new value is in range.
   void jumpToPage(int page) {
-    final index =
-        _getRealIndex(
-            pageController.page.toInt(), realPage - initialPage, itemCount);
+    final index = _getRealIndex(
+        pageController.page.toInt(), realPage - initialPage, itemCount);
     return pageController
         .jumpToPage(pageController.page.toInt() + page - index);
   }
@@ -197,9 +206,8 @@ class CarouselSlider extends StatefulWidget {
   /// The animation lasts for the given duration and follows the given curve.
   /// The returned [Future] resolves when the animation completes.
   Future<void> animateToPage(int page, {Duration duration, Curve curve}) {
-    final index =
-        _getRealIndex(
-            pageController.page.toInt(), realPage - initialPage, itemCount);
+    final index = _getRealIndex(
+        pageController.page.toInt(), realPage - initialPage, itemCount);
     return pageController.animateToPage(
         pageController.page.toInt() + page - index,
         duration: duration,
@@ -207,10 +215,10 @@ class CarouselSlider extends StatefulWidget {
   }
 
   @override
-  _CarouselSliderState createState() => _CarouselSliderState();
+  CarouselSliderState createState() => CarouselSliderState();
 }
 
-class _CarouselSliderState extends State<CarouselSlider>
+class CarouselSliderState extends State<CarouselSlider>
     with TickerProviderStateMixin {
   Timer timer;
 
@@ -221,11 +229,13 @@ class _CarouselSliderState extends State<CarouselSlider>
   }
 
   Timer getTimer() {
-    return widget.autoPlay ? Timer.periodic(widget.autoPlayInterval, (_) {
-      widget.pageController.nextPage(
-          duration: widget.autoPlayAnimationDuration,
-          curve: widget.autoPlayCurve);
-    }) : null;
+    return widget.autoPlay
+        ? Timer.periodic(widget.autoPlayInterval, (_) {
+            widget.pageController.nextPage(
+                duration: widget.autoPlayAnimationDuration,
+                curve: widget.autoPlayCurve);
+          })
+        : null;
   }
 
   void pauseOnTouch() {
@@ -289,9 +299,9 @@ class _CarouselSliderState extends State<CarouselSlider>
             if (widget.pageController.position.minScrollExtent == null ||
                 widget.pageController.position.maxScrollExtent == null) {
               Future.delayed(Duration(microseconds: 1), () {
-	        if (this.mounted) {
+                if (this.mounted) {
                   setState(() {});
-		}
+                }
               });
               return Container();
             }

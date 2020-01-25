@@ -15,12 +15,12 @@ class _InheritedCarousels extends InheritedWidget {
 
 class CarouselsProvider extends StatefulWidget {
   final Widget child;
-  final String user;
+  final data;
 
   const CarouselsProvider({
     Key key,
     @required this.child,
-    this.user,
+    this.data,
   }) : super(key: key);
 
   static CarouselsProviderState of(BuildContext context) {
@@ -34,6 +34,49 @@ class CarouselsProvider extends StatefulWidget {
 }
 
 class CarouselsProviderState extends State<CarouselsProvider> {
+  int appsCount = 4;
+  List<int> appScreensCount = [4, 4, 4, 4];
+
+  final GlobalKey appsCarouselKey = GlobalKey();
+  List<GlobalKey> screensCarouselKeys;
+  @override
+  void initState() {
+    super.initState();
+    screensCarouselKeys = List.generate(
+      appsCount,
+      (index) {
+        return GlobalKey();
+      },
+    );
+  }
+
+  List<List<Widget>> appScreens = [
+    [
+      Image.asset("images/test_pic.png"),
+      Image.asset("images/test_pic.png"),
+      Image.asset("images/test_pic.png"),
+      Image.asset("images/test_pic.png"),
+    ],
+    [
+      Image.asset("images/test_pic.png"),
+      Image.asset("images/test_pic.png"),
+      Image.asset("images/test_pic.png"),
+      Image.asset("images/test_pic.png"),
+    ],
+    [
+      Image.asset("images/test_pic.png"),
+      Image.asset("images/test_pic.png"),
+      Image.asset("images/test_pic.png"),
+      Image.asset("images/test_pic.png"),
+    ],
+    [
+      Image.asset("images/test_pic.png"),
+      Image.asset("images/test_pic.png"),
+      Image.asset("images/test_pic.png"),
+      Image.asset("images/test_pic.png"),
+    ],
+  ];
+
   @override
   Widget build(BuildContext context) {
     return _InheritedCarousels(
