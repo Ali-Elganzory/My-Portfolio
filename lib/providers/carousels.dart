@@ -2,12 +2,14 @@ import 'package:flutter/material.dart';
 
 import '../components/carousel_slider.dart';
 
-class CarouselsProvider {
+class CarouselsProvider with ChangeNotifier {
   static int appsCount = 4;
   static List<int> appScreensCount = [4, 4, 4, 4];
 
+  int selectedAppIndex = 0;
+
   static final GlobalKey<CarouselSliderState> appsCarouselKey = GlobalKey();
-  static List<GlobalKey<CarouselSliderState>> screensCarouselKeys =
+  static final List<GlobalKey<CarouselSliderState>> screensCarouselKeys =
       List.generate(
     appsCount,
     (index) {
@@ -15,30 +17,42 @@ class CarouselsProvider {
     },
   );
 
+  void selectApp(int index) {
+    selectedAppIndex = index;
+    notifyListeners();
+  }
+
+  static List<IconData> appsIcons = [
+    Icons.ac_unit,
+    Icons.access_alarms,
+    Icons.account_balance,
+    Icons.adb,
+  ];
+
   static List<List<Widget>> appScreens = [
     [
-      Image.asset("assets/images/test_pic.png"),
-      Image.asset("assets/images/test_pic.png"),
-      Image.asset("assets/images/test_pic.png"),
-      Image.asset("assets/images/test_pic.png"),
+      Image.asset("assets/test_pic.png"),
+      Image.asset("assets/test_pic.png"),
+      Image.asset("assets/test_pic.png"),
+      Image.asset("assets/test_pic.png"),
     ],
     [
-      Image.asset("assets/images/test_pic.png"),
-      Image.asset("assets/images/test_pic.png"),
-      Image.asset("assets/images/test_pic.png"),
-      Image.asset("assets/images/test_pic.png"),
+      Image.asset("assets/test_pic.png"),
+      Image.asset("assets/test_pic.png"),
+      Image.asset("assets/test_pic.png"),
+      Image.asset("assets/test_pic.png"),
     ],
     [
-      Image.asset("assets/images/test_pic.png"),
-      Image.asset("assets/images/test_pic.png"),
-      Image.asset("assets/images/test_pic.png"),
-      Image.asset("assets/images/test_pic.png"),
+      Image.asset("assets/test_pic.png"),
+      Image.asset("assets/test_pic.png"),
+      Image.asset("assets/test_pic.png"),
+      Image.asset("assets/test_pic.png"),
     ],
     [
-      Image.asset("assets/images/test_pic.png"),
-      Image.asset("assets/images/test_pic.png"),
-      Image.asset("assets/images/test_pic.png"),
-      Image.asset("assets/images/test_pic.png"),
+      Image.asset("assets/test_pic.png"),
+      Image.asset("assets/test_pic.png"),
+      Image.asset("assets/test_pic.png"),
+      Image.asset("assets/test_pic.png"),
     ],
   ];
 }

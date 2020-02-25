@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 
+import './providers/src/change_notifier_provider.dart';
+import './providers/carousels.dart';
+
 import './pages/home_page.dart';
 
 void main() {
@@ -20,7 +23,10 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.yellow,
       ),
-      home: HomePage(),
+      home: ChangeNotifierProvider<CarouselsProvider>(
+        create: (context) => CarouselsProvider(),
+        child: HomePage(),
+      ),
     );
   }
 }
