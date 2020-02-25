@@ -20,7 +20,5 @@ flutter:
   uses-material-design: true
 
   assets:
-    - web/assets/images/personal_photo.jpg
-    - web/assets/images/github.png
-    - web/assets/images/test_pic.png
+    - assets/
 #   fonts:

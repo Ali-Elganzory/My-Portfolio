@@ -1,5 +1,50 @@
 import 'package:flutter/material.dart';
 
+import '../components/carousel_slider.dart';
+
+class CarouselsProvider {
+  static int appsCount = 4;
+  static List<int> appScreensCount = [4, 4, 4, 4];
+
+  static final GlobalKey<CarouselSliderState> appsCarouselKey = GlobalKey();
+  static List<GlobalKey<CarouselSliderState>> screensCarouselKeys =
+      List.generate(
+    appsCount,
+    (index) {
+      return GlobalKey();
+    },
+  );
+
+  static List<List<Widget>> appScreens = [
+    [
+      Image.asset("assets/images/test_pic.png"),
+      Image.asset("assets/images/test_pic.png"),
+      Image.asset("assets/images/test_pic.png"),
+      Image.asset("assets/images/test_pic.png"),
+    ],
+    [
+      Image.asset("assets/images/test_pic.png"),
+      Image.asset("assets/images/test_pic.png"),
+      Image.asset("assets/images/test_pic.png"),
+      Image.asset("assets/images/test_pic.png"),
+    ],
+    [
+      Image.asset("assets/images/test_pic.png"),
+      Image.asset("assets/images/test_pic.png"),
+      Image.asset("assets/images/test_pic.png"),
+      Image.asset("assets/images/test_pic.png"),
+    ],
+    [
+      Image.asset("assets/images/test_pic.png"),
+      Image.asset("assets/images/test_pic.png"),
+      Image.asset("assets/images/test_pic.png"),
+      Image.asset("assets/images/test_pic.png"),
+    ],
+  ];
+}
+
+/* import 'package:flutter/material.dart';
+
 class _InheritedCarousels extends InheritedWidget {
   final CarouselsProviderState data;
 
@@ -85,3 +130,4 @@ class CarouselsProviderState extends State<CarouselsProvider> {
     );
   }
 }
+ */
