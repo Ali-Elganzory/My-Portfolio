@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 
-import './providers/src/change_notifier_provider.dart';
+import 'package:provider/provider.dart';
+
 import './providers/carousels.dart';
 
-import './pages/home_page.dart';
+import 'pages/home_page/home_page.dart';
 
 void main() {
   //  show painting for debugging
@@ -19,14 +20,19 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      debugShowCheckedModeBanner: false,
+      title: "Ali Elganzory",
       theme: ThemeData(
         primarySwatch: Colors.yellow,
       ),
-      home: ChangeNotifierProvider<CarouselsProvider>(
-        create: (context) => CarouselsProvider(),
+      home: MultiProvider(
+        providers: [
+          ChangeNotifierProvider<CarouselsProvider>(
+            create: (_) => CarouselsProvider(),
+          ),
+        ],
         child: HomePage(),
       ),
+      debugShowCheckedModeBanner: false,
     );
   }
 }

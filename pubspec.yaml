@@ -4,13 +4,16 @@ description: My portfolio.
 version: 1.0.0+1
 
 environment:
-  sdk: ">=2.1.0 <3.0.0"
+  sdk: ">=2.2.2 <3.0.0"
 
 dependencies:
   flutter:
     sdk: flutter
-
+    
   cupertino_icons: ^0.1.2
+  
+  provider: ^4.3.1
+  
 
 dev_dependencies:
   flutter_test:
@@ -19,6 +22,22 @@ dev_dependencies:
 flutter:
   uses-material-design: true
 
-  assets: 
-    - assets/
-#   fonts:
+  assets:
+    - assets/images/personal_photo.jpg
+    - assets/images/test/
+
+    - assets/images/fly_food/
+    - assets/images/u_turn/
+
+  fonts:
+    - family: Rowdies
+      fonts:
+        - asset: assets/fonts/Rowdies-Light.ttf
+          weight: 300
+        - asset: assets/fonts/Rowdies-Regular.ttf
+        - asset: assets/fonts/Rowdies-Bold.ttf
+          weight: 700
+
+    - family: GochiHand
+      fonts:
+        - asset: assets/fonts/GochiHand-Regular.ttf

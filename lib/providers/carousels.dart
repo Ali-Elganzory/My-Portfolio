@@ -3,15 +3,21 @@ import 'package:flutter/material.dart';
 import '../components/carousel_slider.dart';
 
 class CarouselsProvider with ChangeNotifier {
-  static int appsCount = 4;
-  static List<int> appScreensCount = [4, 4, 4, 4];
+  static int appCount = 4;
+  static List<int> appScreenCounts = [5, 5, 4, 4];
+  static List<String> appScreenPaths = [
+    "assets/images/fly_food",
+    "assets/images/u_turn",
+    "assets/images/test",
+    "assets/images/test",
+  ];
 
   int selectedAppIndex = 0;
 
   static final GlobalKey<CarouselSliderState> appsCarouselKey = GlobalKey();
   static final List<GlobalKey<CarouselSliderState>> screensCarouselKeys =
       List.generate(
-    appsCount,
+    appCount,
     (index) {
       return GlobalKey();
     },
@@ -30,30 +36,11 @@ class CarouselsProvider with ChangeNotifier {
   ];
 
   static List<List<Widget>> appScreens = [
-    [
-      Image.asset("assets/test_pic.png"),
-      Image.asset("assets/test_pic.png"),
-      Image.asset("assets/test_pic.png"),
-      Image.asset("assets/test_pic.png"),
-    ],
-    [
-      Image.asset("assets/test_pic.png"),
-      Image.asset("assets/test_pic.png"),
-      Image.asset("assets/test_pic.png"),
-      Image.asset("assets/test_pic.png"),
-    ],
-    [
-      Image.asset("assets/test_pic.png"),
-      Image.asset("assets/test_pic.png"),
-      Image.asset("assets/test_pic.png"),
-      Image.asset("assets/test_pic.png"),
-    ],
-    [
-      Image.asset("assets/test_pic.png"),
-      Image.asset("assets/test_pic.png"),
-      Image.asset("assets/test_pic.png"),
-      Image.asset("assets/test_pic.png"),
-    ],
+    for (int appIndex in List<int>.generate(appCount, (i) => i))
+      [
+        for (int screenIndex in List<int>.generate(appScreenCounts[appIndex], (i) => i + 1))
+          Image.asset("${appScreenPaths[appIndex]}/$screenIndex.png")
+      ]
   ];
 }
 
